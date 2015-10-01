@@ -1,15 +1,14 @@
-package cititrade.rest;
+package cititradeweb.rest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.ws.rs.*;
 
-@Path("/contacts")
-public class Contacts {
+@Path("/symbols")
+public class Symbols {
 	
 	@GET
 	@Produces("text/plain")
@@ -20,14 +19,12 @@ public class Contacts {
 
 		try{
 			cn = getConnection();
-			System.out.println("Here----------------------------");
-			PreparedStatement pst = cn.prepareStatement("SELECT name FROM contact WHERE name LIKE ? ORDER BY name");
-			pst.setString(1, str + "%");
+			PreparedStatement pst = cn.prepareStatement("SELECT symbol FROM symbols");
 			ResultSet rs = pst.executeQuery();			
 
 			//temp += "<input type=\"text\" list=\"Contacts\">";
 			
-			temp += "<datalist id=\"Contacts\">";
+			temp += "<datalist id=\"Symbols\">";
 
 			while(rs.next()){		
 				temp += "<option value =\"" + rs.getString(1) +"\">" + rs.getString(1) + "</option>";
@@ -42,6 +39,7 @@ public class Contacts {
 				cn.close();
 			}
 		}
+		//System.out.println(temp);
 		return temp;
 	}
 		
@@ -50,7 +48,7 @@ public class Contacts {
 		Connection cn = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			cn = DriverManager.getConnection("jdbc:mysql://localhost/montestdb", "root", "password");
+			cn = DriverManager.getConnection("jdbc:mysql://localhost/cititrade", "root", "password");
 		}
 		catch(SQLException ex){
 			System.out.println("Database connection error: " + ex);

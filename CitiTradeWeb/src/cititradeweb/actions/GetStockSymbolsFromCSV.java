@@ -10,10 +10,10 @@ import cititradeweb.dataobjects.StockObject;
 
 public class GetStockSymbolsFromCSV {
 
-	static List<String> stockSymbols = new ArrayList <>();
+	
 
 	public static List<String> getSymbols(){
-
+		List<String> stockSymbols = new ArrayList <>();
 		String csvFile = "C:/Users/Citi-2013-27/Downloads/companylist2.csv";
 		BufferedReader br = null;
 		String line = "";
@@ -39,8 +39,9 @@ public class GetStockSymbolsFromCSV {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		stockSymbols.remove(0);
-		System.out.println(stockSymbols);
+		//System.out.println(stockSymbols);
 		//System.out.println("Done");
 		return stockSymbols;
 	}
