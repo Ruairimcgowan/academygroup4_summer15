@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.logging.Logger;
+
 public class GetStockSymbolsFromCSV {
 
 	static List<String> stockSymbols = new ArrayList <>();
@@ -30,12 +32,16 @@ public class GetStockSymbolsFromCSV {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Logger log = Logger.getLogger(GetStockSymbolsFromCSV.class.getClass());
+			log.error("ERROR "+ e.getMessage());
 		}
 
 		try {
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			Logger log = Logger.getLogger(GetStockSymbolsFromCSV.class.getClass());
+			log.error("ERROR "+ e.getMessage());
 		}
 		stockSymbols.remove(0);
 		System.out.println(stockSymbols);
