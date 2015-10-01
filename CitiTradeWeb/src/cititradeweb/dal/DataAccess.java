@@ -8,7 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.logging.Logger;
+
 import cititradeweb.actions.GetStockSymbolsFromCSV;
+import cititradeweb.actions.Orders;
 import cititradeweb.dataobjects.*;
 
 public class DataAccess {
@@ -22,9 +25,13 @@ public class DataAccess {
 		}
 		catch(SQLException ex){
 			System.out.println("Database connection error: " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		catch(ClassNotFoundException ex){
 			System.out.println("Class not found: " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		return cn;
 	}
@@ -64,6 +71,8 @@ public class DataAccess {
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		finally{
 			if(cn != null){
@@ -90,6 +99,8 @@ public class DataAccess {
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		finally{
 			if(cn != null){
@@ -124,6 +135,8 @@ public class DataAccess {
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		finally{
 			if(cn != null){
@@ -155,6 +168,8 @@ public class DataAccess {
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		finally{
 			if(cn != null){
@@ -181,6 +196,8 @@ public class DataAccess {
 		} //try 
 		catch (SQLException ex) {
 			System.out.println("Error getting data " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 
 		finally {
@@ -213,6 +230,8 @@ public class DataAccess {
 		}//try
 		catch (SQLException ex) {
 			System.out.println("Error getting data " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 
 		finally {
