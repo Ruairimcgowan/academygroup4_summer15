@@ -201,7 +201,7 @@ public class DataAccess {
 			for (String s : listOfSymbols) {	
 
 				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery("SELECT TOP 1 bid, ask FROM " + s);	
+				ResultSet rs = st.executeQuery("SELECT * FROM " + s + " ORDER BY askprice ASC LIMIT 1");	
 				while (rs.next()) {
 					stocks.add (new StockObject (rs.getInt("id"), rs.getDate("stocktime"),rs.getString("symbol"),
 							rs.getDouble("askprice"),
@@ -225,6 +225,6 @@ public class DataAccess {
 		return stocks;	
 
 	}
-
+	
 
 }

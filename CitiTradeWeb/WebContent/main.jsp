@@ -20,7 +20,7 @@
 
 
 
-<form action= "getTopQuotesServlet" method="post">
+<form action= "getTopQuotesServlet" method="get">
 
 <table>
 

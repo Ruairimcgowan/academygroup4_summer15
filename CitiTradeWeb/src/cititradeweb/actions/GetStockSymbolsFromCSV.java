@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cititradeweb.dataobjects.StockObject;
+
 public class GetStockSymbolsFromCSV {
 
 	static List<String> stockSymbols = new ArrayList <>();
@@ -42,5 +44,6 @@ public class GetStockSymbolsFromCSV {
 		//System.out.println("Done");
 		return stockSymbols;
 	}
+
 
 }
