@@ -11,11 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.logging.Logger;
-
 import cititradeweb.dal.DataAccess;
 import cititradeweb.dataobjects.StockObject;
-import cititradeweb.ordermanager.OrderManager;
 
 /**
  * Servlet implementation class getSingleStock
@@ -68,8 +65,6 @@ public class getSingleStock extends HttpServlet {
 			}
 			catch (SQLException e){
 				out.print("error" + e);
-				Logger log = Logger.getLogger(getSingleStock.class.getClass());
-				log.error("ERROR "+ e.getMessage());
 			}
 		}
 

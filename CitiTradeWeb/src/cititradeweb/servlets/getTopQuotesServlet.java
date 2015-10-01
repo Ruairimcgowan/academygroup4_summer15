@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.logging.Logger;
-
-import cititradeweb.actions.Orders;
 import cititradeweb.dal.DataAccess;
 import cititradeweb.dataobjects.StockObject;
 /**
@@ -21,7 +18,6 @@ import cititradeweb.dataobjects.StockObject;
  */
 @WebServlet("/getTopQuotesServlet")
 public class getTopQuotesServlet extends HttpServlet {
-	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -71,8 +67,6 @@ public class getTopQuotesServlet extends HttpServlet {
 			}
 			catch (SQLException e){
 				out.print("error" + e);
-				Logger log = Logger.getLogger(getTopQuotesServlet.class.getClass());
-				log.error("ERROR "+ e.getMessage());
 			}
 		}
 

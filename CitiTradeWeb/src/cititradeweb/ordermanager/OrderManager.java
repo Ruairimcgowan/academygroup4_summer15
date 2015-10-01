@@ -33,10 +33,6 @@ import quickfix.field.Symbol;
 import quickfix.field.TransactTime;
 import quickfix.fix42.NewOrderSingle;
 
-import org.jboss.logging.Logger;
-
-import cititradeweb.actions.Orders;
-
 public class OrderManager
 {
     // The singleton instance
@@ -64,22 +60,14 @@ public class OrderManager
         catch (quickfix.ConfigError ce)
         {
             System.out.println ("Error setting socket acceptor < " + ce.getMessage() + " >");
-            Logger log = Logger.getLogger(OrderManager.class.getClass());
-			log.error("ERROR "+ ce.getMessage());
         }
     }
 
     public static OrderManager getInstance()
     {
-    	try{
         if (instance == null)
             instance = new OrderManager();
-    	}catch(Exception e){
-    		Logger log = Logger.getLogger(OrderManager.class.getClass());
-			log.error("ERROR "+ e.getMessage());
-    	}
         return instance;
-    	
     }
 
     public class OrderResult
@@ -91,16 +79,13 @@ public class OrderManager
 
     // Buy a stock
     public OrderResult buyOrder(String stock, double price, int shares)
-    {	
-    	
+    {
         OrderResult o = new OrderResult();
         o.price = price;
         o.shares = shares;
         o.longPosition = true;
         engine.sendNewBuyOrder (stock, price, shares);
-    	
         return o;
-            	
     }
 
     // Sell a stock
@@ -178,7 +163,7 @@ class FixEngine extends quickfix.fix42.MessageCracker implements quickfix.Applic
             String value = message.getString(field.getTag());
         }
         */
-        try{
+        
         OrdStatus ordStatus = new OrdStatus();
         message.get(ordStatus);
         if (ordStatus.valueEquals (OrdStatus.PARTIALLY_FILLED) || 
@@ -192,12 +177,6 @@ class FixEngine extends quickfix.fix42.MessageCracker implements quickfix.Applic
             message.get(side);
             // Optional what you want todo with this info
         }
-        
-        }catch(Exception e){
-    		Logger log = Logger.getLogger(OrderManager.class.getClass());
-			log.error("ERROR "+ e.getMessage());
-    	}
-        
     }
 
     // Send new buy limit order to exchange 
@@ -238,8 +217,6 @@ class FixEngine extends quickfix.fix42.MessageCracker implements quickfix.Applic
         } 
         catch (SessionNotFound e) 
         {
-        	Logger log = Logger.getLogger(OrderManager.class.getClass());
-			log.error("ERROR "+ e.getMessage());
         }
     }
 }
@@ -277,8 +254,6 @@ class QuickFixConfigBuilder
         catch (ConfigError ce)
         {
             System.out.println ("Error setting quickfix settings < " + ce.getMessage() + " >");
-            Logger log = Logger.getLogger(OrderManager.class.getClass());
-			log.error("ERROR "+ ce.getMessage());
         }
 
     }

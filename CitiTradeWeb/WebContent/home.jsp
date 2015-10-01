@@ -69,8 +69,8 @@
 			<th style='border: 1px solid black'>Bid Size</th>
 			<th style='border: 1px solid black'>Ask Size</th></tr>
 				<%-- <%
-					List<StockObject> stocks = DataAccess.getContactsObjects((request.getParameter("txtCountry")));
-						for(StockObject s : stocks){
+					List<Stocks> stocks = DataAccess.getContactsObjects((request.getParameter("txtCountry")));
+						for(Stocks s : stocks){
 						out.println("<tr><td style='border: 1px solid black'>"+ s.getSymbol() + "</td>");
 						out.println("<td style='border: 1px solid black'>"+ s.getBidPrice() + "</td>");
 						out.println("<td style='border: 1px solid black'>"+ s.getAskPrice() + "</td>");
