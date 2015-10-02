@@ -30,17 +30,22 @@ public class DataAccess {
 		return cn;
 	}
 	
-	public static void addFavouriteStock(StockObject stock) throws SQLException{
+public static void addOrder(OrderObject order) throws SQLException{
 		
 		Connection cn = null;
 
 		try{
 			cn = getConnection();
-			String query = "INSERT INTO " + stock + "')";
-			System.out.println(query);
-			Statement st = cn.createStatement();
-			st.executeUpdate(query);
+			PreparedStatement pst = cn.prepareStatement("INSERT INTO orders (symbol, action, price, shares) VALUES (?, ?, ?, ?)");
+			pst.setString(1, order.getStock());
+			pst.setString(2, order.getAction());
+			pst.setDouble(3, order.getPrice());
+			pst.setInt(4, order.getShares());
+			int rows = pst.executeUpdate();
 			
+			if(rows == 1){
+				System.out.println("Order for " + order.getStock() + " added!");
+			}			
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
@@ -49,8 +54,55 @@ public class DataAccess {
 			if(cn != null){
 				cn.close();
 			}
-		}
+		}		
+	}
+	
+	public static void addFavouriteStock(String stockSymbol) throws SQLException{
 		
+		Connection cn = null;
+
+		try{
+			cn = getConnection();
+			PreparedStatement pst = cn.prepareStatement("INSERT INTO favourites (symbol) VALUES (?)");
+			pst.setString(1, stockSymbol);
+			int rows = pst.executeUpdate();
+			
+			if(rows == 1){
+				System.out.println("Favourite stock " + stockSymbol + " added!");
+			}			
+		}
+		catch(SQLException ex){
+			System.out.println("Error getting data: " + ex);
+		}
+		finally{
+			if(cn != null){
+				cn.close();
+			}
+		}		
+	}
+	
+public static void removeFavouriteStock(String stockSymbol) throws SQLException{
+		
+		Connection cn = null;
+
+		try{
+			cn = getConnection();
+			PreparedStatement pst = cn.prepareStatement("REMOVE FROM favourites WHERE symbol LIKE ?");
+			pst.setString(1, stockSymbol);
+			int rows = pst.executeUpdate();
+			
+			if(rows == 1){
+				System.out.println("Favourite stock " + stockSymbol + " removed!");
+			}			
+		}
+		catch(SQLException ex){
+			System.out.println("Error getting data: " + ex);
+		}
+		finally{
+			if(cn != null){
+				cn.close();
+			}
+		}		
 	}
 
 	public static void addStockQuote(String symbol, String askPrice, String bidPrice, String change, String changePercent, String open, String close) throws SQLException{
@@ -124,7 +176,19 @@ public class DataAccess {
 					System.out.println("Symbol added!");
 				}
 				
-				String query = "CREATE TABLE " + symbol.toLowerCase() + " (id int auto_increment PRIMARY KEY, stocktime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100) NOT NULL, askprice DECIMAL(10,2) NOT NULL, bidprice DECIMAL(10,2) NOT NULL, changed DECIMAL(10,2) NOT NULL DEFAULT 0, changedPercent nvarchar(100) NOT NULL DEFAULT 0, open DECIMAL(10,2) NOT NULL DEFAULT 0, close DECIMAL(10,2) NOT NULL DEFAULT 0);";
+				PreparedStatement pst3 = cn.prepareStatement("CREATE TABLE IF NOT EXISTS favourites (id int auto_increment PRIMARY KEY, symbol nvarchar(100));");
+				int rows3 = pst3.executeUpdate();
+				if(rows3 == 1){
+					System.out.println("Favourites table completed!");
+				}
+				
+				PreparedStatement pst4 = cn.prepareStatement("CREATE TABLE IF NOT EXISTS orders (id int auto_increment PRIMARY KEY, ordertime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100), action nvarchar(100), price DECIMAL(10,2) NOT NULL DEFAULT 0, int shares NOT NULL DEFAULT 0;");
+				int rows4 = pst4.executeUpdate();
+				if(rows4 == 1){
+					System.out.println("Favourites table completed!");
+				}				
+				
+				String query = "CREATE TABLE IF NOT EXISTS " + symbol.toLowerCase() + " (id int auto_increment PRIMARY KEY, stocktime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100) NOT NULL, askprice DECIMAL(10,2) NOT NULL, bidprice DECIMAL(10,2) NOT NULL, changed DECIMAL(10,2) NOT NULL DEFAULT 0, changedPercent nvarchar(100) NOT NULL DEFAULT 0, open DECIMAL(10,2) NOT NULL DEFAULT 0, close DECIMAL(10,2) NOT NULL DEFAULT 0);";
 				System.out.println(query);
 				//symbol, askprice, bidprice, change, changepercent, open, close
 
@@ -145,7 +209,7 @@ public class DataAccess {
 	
 	public List<String> getSymbolsFromDataBase() throws SQLException{
 		
-		List<String> temp = null;
+		List<String> temp = new ArrayList <String>();
 		Connection con = null;
 		try {
 			con = getConnection ();
@@ -158,7 +222,6 @@ public class DataAccess {
 		catch (SQLException ex) {
 			System.out.println("Error getting data " + ex);
 		}
-
 		finally {
 			if (con != null) {
 				con.close();
@@ -197,7 +260,7 @@ public class DataAccess {
 		try {
 			con = getConnection ();
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM symbol WHERE symbol='" + stockSymbol + "'");
+			ResultSet rs = st.executeQuery("SELECT * FROM " + stockSymbol);
 			while (rs.next()) {
 				temp.add(new StockObject (rs.getInt("id"), rs.getDate("stocktime"),rs.getString("symbol"),
 						rs.getDouble("askprice"),
@@ -252,8 +315,7 @@ public class DataAccess {
 				con.close();
 			}//if
 		}//finally
-		return stocks;	
-
+		return stocks;
 	}
 	
 

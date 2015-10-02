@@ -10,18 +10,18 @@ import javax.ws.rs.*;
 import cititradeweb.dal.DataAccess;
 import cititradeweb.dataobjects.StockObject;
 
-@Path("/quotes")
-public class MostRecentQuotes {
+@Path("/onestock")
+public class AllQuotesForOneStock {
 	
 	@GET
 	@Produces("text/plain")
-	public String getText() throws SQLException{
+	public String getText(@QueryParam("str") String str) throws SQLException{
 
 		String temp = "";
 		Connection cn = null;
 
 		try{
-			List<StockObject> quotes = DataAccess.returnMostRecentQuote();
+			List<StockObject> quotes = DataAccess.getStockData(str);
 			//System.out.println(quotes);
 
 			//temp += "<input type=\"text\" list=\"Contacts\">";
