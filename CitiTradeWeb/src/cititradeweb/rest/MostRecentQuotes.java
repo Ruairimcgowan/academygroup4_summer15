@@ -14,7 +14,7 @@ import cititradeweb.dataobjects.StockObject;
 public class MostRecentQuotes {
 	
 	@GET
-	@Produces("text/plain")
+	@Produces("text/html")
 	public String getText() throws SQLException{
 
 		String temp = "";

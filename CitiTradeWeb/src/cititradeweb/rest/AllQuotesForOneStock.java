@@ -14,7 +14,7 @@ import cititradeweb.dataobjects.StockObject;
 public class AllQuotesForOneStock {
 	
 	@GET
-	@Produces("text/plain")
+	@Produces("text/html")
 	public String getText(@QueryParam("str") String str) throws SQLException{
 
 		String temp = "";

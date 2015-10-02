@@ -3,16 +3,18 @@ package cititradeweb.actions;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetStockSymbolsFromCSV {
-
-	
+public class GetStockSymbolsFromCSV {	
 
 	public static List<String> getSymbols(){
 		List<String> stockSymbols = new ArrayList <>();
-		String csvFile = "C:/Users/Citi-2013-27/Downloads/companylist2.csv";
+		Path currentRelativePath = Paths.get("");
+		String s = currentRelativePath.toAbsolutePath().toString();
+		String csvFile = s + "/companylist.csv";
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
@@ -43,6 +45,4 @@ public class GetStockSymbolsFromCSV {
 		//System.out.println("Done");
 		return stockSymbols;
 	}
-
-
 }
