@@ -11,7 +11,7 @@ import javax.ws.rs.*;
 public class Symbols {
 	
 	@GET
-	@Produces("text/plain")
+	@Produces("text/html")
 	public String getText(@QueryParam("str") String str) throws SQLException{
 
 		String temp = "";

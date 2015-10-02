@@ -260,7 +260,7 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 		try {
 			con = getConnection ();
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM " + stockSymbol);
+			ResultSet rs = st.executeQuery("SELECT * FROM " + stockSymbol + " ORDER BY stocktime DESC");
 			while (rs.next()) {
 				temp.add(new StockObject (rs.getInt("id"), rs.getDate("stocktime"),rs.getString("symbol"),
 						rs.getDouble("askprice"),
