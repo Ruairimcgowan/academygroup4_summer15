@@ -9,7 +9,7 @@ import cititradeweb.dal.DataAccess;
 
 public class GetQuotes {
 
-	public static void main(String[] args) throws Exception{
+	public static void getQuotes() throws Exception{
 		// TODO Auto-generated method stub
 		//Scanner kb = new Scanner(System.in);
 		//int movAvg = 0;
