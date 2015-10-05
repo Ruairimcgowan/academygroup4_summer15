@@ -1,4 +1,4 @@
-package assessment2.quotes;
+package cititradeweb.actions;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,11 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-import assessment2.dal.DataAccess;
-
 public class CopyOfGetQuotes {
 
-	public static void main(String[] args) throws Exception{
+	public static void DELETETHISCLASS(String[] args) throws Exception{
 		// TODO Auto-generated method stub
 		Scanner kb = new Scanner(System.in);
 		String sym = "";
@@ -29,7 +27,7 @@ public class CopyOfGetQuotes {
 		double[] askMoving = new double[capture];
 
 		System.out.println("\nSymbol, Ask Price, Bid Price");
-		DataAccess.initTable();
+		//DataAccess.initTable();
 
 		for(int index = 0; index < capture; index++){
 			StringBuilder url = new StringBuilder("http://finance.yahoo.com/d/quotes.csv?s=");
@@ -74,7 +72,7 @@ public class CopyOfGetQuotes {
 					askAvg = 0;
 				}
 				
-				DataAccess.addStockQuote(fields[0], fields[1], fields[2], askAvg, bidAvg, capture, movAvg);
+				//DataAccess.addStockQuote(fields[0], fields[1], fields[2], askAvg, bidAvg, capture, movAvg);
 				bidTotal += Double.parseDouble(fields[1]);
 				askTotal += Double.parseDouble(fields[2]);
 				System.out.println();

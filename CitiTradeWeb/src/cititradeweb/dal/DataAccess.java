@@ -19,9 +19,11 @@ public class DataAccess {
 
 	public static Connection getConnection(){
 		
-		Scanner kb = new Scanner(System.in);
-		System.out.println("Enter password for cititrade database: ");
-		pass = kb.next();
+		if(pass.equals("")){
+			Scanner kb = new Scanner(System.in);
+			System.out.println("Enter password for cititrade database: ");
+			pass = kb.next();
+		}
 
 		Connection cn = null;
 		try{

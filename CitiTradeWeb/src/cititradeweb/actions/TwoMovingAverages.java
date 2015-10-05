@@ -105,4 +105,8 @@ public class TwoMovingAverages {
 		System.out.printf("\nAsk Price Moving Average SHORT (Last %s)/LONG (Last %s): %.2f/%.2f", movAvgShort, movAvgLong, askAvgShort, askAvgLong);
 		kb.close();
 	}
+	
+	public static void main(String []args) throws Exception{
+		getMovingAverages();
+	}
 }
