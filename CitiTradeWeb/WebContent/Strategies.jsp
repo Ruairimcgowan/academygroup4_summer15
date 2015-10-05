@@ -44,7 +44,6 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="home.jsp">Live Market Data</a></li>
-            <li><a href="IndividualQuote.jsp">Individual Quotes</a></li>
             <li class="active"><a href="Strategies.jsp">Strategies</a></li>
             
           </ul>
@@ -87,8 +86,9 @@
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
           <div class="list-group">
-            <a href="#mytrades" class="list-group-item">My Trades</a>
-            <a href="#livestockfeed" class="list-group-item">Market URL</a>
+            <a href="#strategy1" class="list-group-item">Strategy1</a>
+            <a href="#strategy2" class="list-group-item">Strategy2</a>
+            <a href="#strategy3" class="list-group-item">Strategy3</a>
           </div>
         </div><!--/.sidebar-offcanvas-->
       </div><!--/row-->

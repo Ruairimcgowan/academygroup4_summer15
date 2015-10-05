@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Off Canvas Template for Bootstrap</title>
+    <title>CitiTradeGroup4</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -44,8 +44,10 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="home.jsp">Live Market Data</a></li>
-            <li><a href="IndividualQuote.jsp">Individual Quotes</a></li>
             <li><a href="Strategies.jsp">Strategies</a></li>
+            
+            
+            
             
           </ul>
         </div><!-- /.nav-collapse -->
@@ -68,8 +70,8 @@
 			<th style='border: 1px solid black'>Ask Price</th>
 			<th style='border: 1px solid black'>Bid Size</th>
 			<th style='border: 1px solid black'>Ask Size</th></tr>
-				<%-- <%
-					List<Stocks> stocks = DataAccess.getContactsObjects((request.getParameter("txtCountry")));
+				<%--  <%
+					List<StockObject> stocks1 = DataAccess.returnMostRecentQuotes();
 						for(Stocks s : stocks){
 						out.println("<tr><td style='border: 1px solid black'>"+ s.getSymbol() + "</td>");
 						out.println("<td style='border: 1px solid black'>"+ s.getBidPrice() + "</td>");
@@ -86,10 +88,20 @@
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+                  <form class="form-search" method="get" id="s" action="/">
+   				  <div class="input-append">
+   				  <h3>Search Symbol:</h3>
+        		  <input type="text" class="input-medium search-query" name="s" placeholder="Search Company" value="">
+        		  </div>
+        		  </form>
+        		  <form action="IndividualQuote.jsp">
+        		  <button type="submit" class="btn btn-default">Submit</button>
+   				  </form>
           <div class="list-group">
-            <a href="#mytrades" class="list-group-item">My Trades</a>
-            <a href="#livestockfeed" class="list-group-item">Market URL</a>
+            <a href="#mytrades" class="list-group-item list-group-item-success">My Trades</a>
+            <a href="#livestockfeed" class="list-group-item list-group-item-info">Market URL</a>
           </div>
+
         </div><!--/.sidebar-offcanvas-->
       </div><!--/row-->
 

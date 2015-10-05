@@ -12,7 +12,7 @@ public class GetStockSymbolsFromCSV {
 
 	public static List<String> getSymbols(){
 
-		String csvFile = "C:/Users/Citi-2013-27/Downloads/companylist2.csv";
+		String csvFile = "C:/	Users/Citi Tech 2015/Downloads/companylist.csv";
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";

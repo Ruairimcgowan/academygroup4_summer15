@@ -44,7 +44,6 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="home.jsp">Live Market Data</a></li>
-            <li class="active"><a href="IndividualQuote.jsp">Individual Quotes</a></li>
             <li><a href="Strategies.jsp">Strategies</a></li>
             
           </ul>
