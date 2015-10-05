@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+
+ pageEncoding="ISO-8859-1"
+ import = "cititradeweb.actions.*, cititradeweb.dal.*, cititradeweb.dataobjects.StockObject, java.util.List"%>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,7 +11,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../../favicon.ico"
+    >
 
     <title>Off Canvas Template for Bootstrap</title>
 
@@ -17,18 +22,108 @@
     <!-- Custom styles for this template -->
     <link href="css/offcanvas.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+   
+
+     <script type="text/javascript">
+	var request = myCreateXMLHttpRequest();
+
+	function myCreateXMLHttpRequest() {
+		try {
+			return new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+		}
+		try {
+			return new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) {
+		}
+		try {
+			return new XMLHttpRequest();
+		} catch (e) {
+		}
+		return null;
+	}
+
+	function myOnKeyUp() {
+
+		if (request != null) {
+			var textField = document.getElementById("myInputField");
+			var url = "rest/symbols?str=" + textField.value;
+			request.open("GET", url, true);
+			request.onreadystatechange = myHandleCallback;
+			request.send(null);
+		}
+	}
+
+	function myHandleCallback() {
+
+		if (request.readyState == 4 && request.status == 200) {
+			var outputField = document.getElementById("myInputField");
+			outputField.innerHTML = request.responseText;
+		}
+	}
+
+	function myHandleCallback2() {
+
+		if (request.readyState == 4 && request.status == 200) {
+			var outputField = document.getElementById("tableField");
+			outputField.innerHTML = request.responseText;
+		}
+	}
+
+	function getQuotes(){
+		setInterval(function(){
+			if (request != null) {
+			var url = "rest/quotes"
+			request.open("GET", url, true);
+			request.onreadystatechange = myHandleCallback2;
+			request.send(null);
+		}
+			}, 1000)		
+	}
+
+	
+</script> 
+   <style type = "text/css">
+   .myTable {
+	margin:0px;padding:0px;
+	width:100%;
+	box-shadow: 10px 10px 5px #888888;
+	border: 0px;
+	font-size: 10px;
+	
+	-moz-border-radius-bottomleft:25px;
+	-webkit-border-bottom-left-radius:25px;
+	border-bottom-left-radius:25px;
+	
+	-moz-border-radius-bottomright:25px;
+	-webkit-border-bottom-right-radius:25px;
+	border-bottom-right-radius:25px;
+	
+	-moz-border-radius-topright:25px;
+	-webkit-border-top-right-radius:25px;
+	border-top-right-radius:25px;
+	
+	-moz-border-radius-topleft:25px;
+	-webkit-border-top-left-radius:25px;
+	border-top-left-radius:25px;
+}.myTable table{
+    border-collapse: collapse;
+        border-spacing: 0;
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}
+
+</style>
   </head>
 
-  <body>
+  <body onload= "getQuotes()">
+  <h1>CitiTrade</h1>
     <nav class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
         <div class="navbar-header">
@@ -60,24 +155,11 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
           <div class="jumbotron">
-            <h1>Live Market Data</h1>
-            <table style='border: 3px solid black'>
-			<tr><th style='border: 1px solid black'>Symbol</th>
-			<th style='border: 1px solid black'>Bid Price</th>
-			<th style='border: 1px solid black'>Ask Price</th>
-			<th style='border: 1px solid black'>Bid Size</th>
-			<th style='border: 1px solid black'>Ask Size</th></tr>
-				<%-- <%
-					List<Stocks> stocks = DataAccess.getContactsObjects((request.getParameter("txtCountry")));
-						for(Stocks s : stocks){
-						out.println("<tr><td style='border: 1px solid black'>"+ s.getSymbol() + "</td>");
-						out.println("<td style='border: 1px solid black'>"+ s.getBidPrice() + "</td>");
-						out.println("<td style='border: 1px solid black'>"+ s.getAskPrice() + "</td>");
-						out.println("<td style='border: 1px solid black'>"+ s.getBidSize() + "</td>");
-						out.println("<td style='border: 1px solid black'>"+ s.getaskSize() + "</td></tr>");
-						}
-						%> --%>
-			</table>
+            <h3>Live Market Data</h3>
+            <p id="tableField"></p>
+
+			
+				
           </div>
           <div class="row">
             
@@ -85,6 +167,22 @@
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+           <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+          
+                  <form class="form-search" method="get" id="s" action="/">
+   				  <div class="input-append">
+   				  <h3>Search Symbol:</h3>
+   				   </div>    	
+   				  </form>
+   				   <form action = "IndividualQuote.jsp" method= "get">
+					<input type="text" id= "myInputField" list= "Symbols" onkeyup="myOnKeyUp()" name="str" placeholder="Enter Symbol" value=""/>
+				
+					<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+        		     
+   				 
+   			
+   				  
           <div class="list-group">
             <a href="#mytrades" class="list-group-item">My Trades</a>
             <a href="#livestockfeed" class="list-group-item">Market URL</a>

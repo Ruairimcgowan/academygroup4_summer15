@@ -5,12 +5,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Scanner;
+
+import org.jboss.logging.Logger;
+
 import cititradeweb.dal.DataAccess;
 
 public class GetQuotes {
 
 	public static void getQuotes() throws Exception{
 		// TODO Auto-generated method stub
+						
 		//Scanner kb = new Scanner(System.in);
 		//int movAvg = 0;
 		double bidTotal = 0, askTotal = 0, bidAvg = 0, askAvg = 0, bidTemp = 0, askTemp = 0;
@@ -20,10 +25,12 @@ public class GetQuotes {
 		//double[] bidMoving = new double[captureSize];
 		//double[] askMoving = new double[captureSize];
 
-
 		System.out.println("\nSymbol, Ask Price, Bid Price");
-
+						
 		while(true){
+			
+			try{
+			
 			for(String s: stockSymbols){
 				StringBuilder url = new StringBuilder("http://finance.yahoo.com/d/quotes.csv?s=");
 
@@ -31,7 +38,9 @@ public class GetQuotes {
 				url.append("&f=sabc1cop&e=.csv");
 				
 				//symbol, askprice, bidprice, change, changepercent, open, close
-
+				Logger log = Logger.getLogger(GetQuotes.class.getClass());
+				log.info("Connection to Yahoo made");
+				
 				String theUrl = url.toString();
 				URL obj = new URL(theUrl);
 				HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -39,7 +48,7 @@ public class GetQuotes {
 				con.setRequestProperty("User-Agent", "Mozilla/5.0");
 				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				String inputLine;
-
+							
 				while((inputLine = in.readLine()) != null)	//(essentially while(true))
 				{
 					//System.out.println(inputLine);
@@ -49,7 +58,7 @@ public class GetQuotes {
 						fields[i] = fields[i].replaceAll("\"", "").replaceAll("N/A", "0");
 						System.out.print(fields[i] + " | ");
 					} 
-
+										
 					DataAccess.addStockQuote(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6]);
 					if(!fields[1].contains("N/A") && !fields[2].contains("N/A")){
 						bidTotal += Double.parseDouble(fields[1]);
@@ -57,6 +66,10 @@ public class GetQuotes {
 					}
 					System.out.println("-----------------------------------");
 				}			
+			}
+			}catch(Exception e){
+				Logger log = Logger.getLogger(GetQuotes.class.getClass());
+				log.error("ERROR "+ e.getMessage());
 			}
 		}
 		/*System.out.printf("Bid Price Average: %.2f", bidTotal/capture);	       

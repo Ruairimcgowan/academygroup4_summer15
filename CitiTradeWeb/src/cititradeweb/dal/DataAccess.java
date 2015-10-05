@@ -8,18 +8,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import cititradeweb.actions.GetStockSymbolsFromCSV;
 import cititradeweb.dataobjects.*;
 
 public class DataAccess {
+	
+	public static String pass = "";
 
 	public static Connection getConnection(){
+		
+		if(pass.equals("")){
+			Scanner kb = new Scanner(System.in);
+			System.out.println("Enter password for cititrade database: ");
+			pass = kb.next();
+		}
 
 		Connection cn = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			cn = DriverManager.getConnection("jdbc:mysql://localhost/cititrade", "root", "password");
+			cn = DriverManager.getConnection("jdbc:mysql://localhost/cititrade", "root", pass);
 		}
 		catch(SQLException ex){
 			System.out.println("Database connection error: " + ex);
@@ -105,7 +114,7 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 		}		
 	}
 
-	public static void addStockQuote(String symbol, String askPrice, String bidPrice, String change, String changePercent, String open, String close) throws SQLException{
+	public static void addStockQuote(String symbol, String askPrice, String bidPrice, String change, String changePercent, String open, String close, double bidAvgShort, double bidAvgLong, double askAvgShort, double askAvgLong) throws SQLException{
 
 		Connection cn = null;
 
@@ -113,7 +122,6 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 			cn = getConnection();
 			if(!symbol.contains("^") && !symbol.contains(".") && !symbol.contains("'") && !symbol.contains("''")){
 				/*PreparedStatement pst = cn.prepareStatement("INSERT INTO quotes(symbol, askprice, bidprice, changed, changedpercent, open, close) VALUES (?, ?, ?, ?, ?, ?, ?)");
-
 				pst.setString(1, symbol.replaceAll("\"", ""));
 				if(!askPrice.equals("N/A") || !bidPrice.equals("N/A")){
 					pst.setDouble(2, Double.parseDouble(askPrice));
@@ -125,14 +133,54 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 				}else{
 					System.out.println("No ask/bid price data for " + symbol);
 				}					
-
 				int rows = pst.executeUpdate();
-
 				if(rows == 1){
 					System.out.println(symbol + " added to quotes table.");
 				}*/
 
-				String query = "INSERT INTO " + symbol.toLowerCase().replaceAll("\"", "").replaceAll("'", "") + " (symbol, askprice, bidprice, changed, changedPercent, open, close) VALUES ('" + symbol.replaceAll("\"", "") + "', '" + Double.parseDouble(askPrice) + "', '" + Double.parseDouble(bidPrice) + "', '" + Double.parseDouble(change) + "', '" + changePercent + "', '" + Double.parseDouble(open) + "', '" + Double.parseDouble(close) + "')";
+				String query = "INSERT INTO " + symbol.toLowerCase().replaceAll("\"", "").replaceAll("'", "") + " (symbol, askprice, bidprice, changed, changedPercent, open, close, bidshortavg, bidlongavg, askshortavg, asklongavg) VALUES ('" + symbol.replaceAll("\"", "") + "', '" + Double.parseDouble(askPrice) + "', '" + Double.parseDouble(bidPrice) + "', '" + Double.parseDouble(change) + "', '" + changePercent + "', '" + Double.parseDouble(open) + "', '" + Double.parseDouble(close)  + "', '" + bidAvgShort  + "', '" + bidAvgLong  + "', '" + askAvgShort  + "', '" + askAvgLong + "')";
+				//symbol, askprice, bidprice, change, changepercent, open, close
+				System.out.println(query);
+				Statement st = cn.createStatement();
+				st.executeUpdate(query);
+			}
+		}
+		catch(SQLException ex){
+			System.out.println("Error getting data: " + ex);
+		}
+		finally{
+			if(cn != null){
+				cn.close();
+			}
+		}
+	}
+	
+	public static void addStockQuote(String symbol, String askPrice, String bidPrice, String change, String changePercent, String open, String close) throws SQLException{
+
+		Connection cn = null;
+
+		try{
+			cn = getConnection();
+			if(!symbol.contains("^") && !symbol.contains(".") && !symbol.contains("'") && !symbol.contains("''")){
+				/*PreparedStatement pst = cn.prepareStatement("INSERT INTO quotes(symbol, askprice, bidprice, changed, changedpercent, open, close) VALUES (?, ?, ?, ?, ?, ?, ?)");
+				pst.setString(1, symbol.replaceAll("\"", ""));
+				if(!askPrice.equals("N/A") || !bidPrice.equals("N/A")){
+					pst.setDouble(2, Double.parseDouble(askPrice));
+					pst.setDouble(3, Double.parseDouble(bidPrice));
+					pst.setDouble(4, Double.parseDouble(change));
+					pst.setDouble(5, Double.parseDouble(changePercent));
+					pst.setDouble(6, Double.parseDouble(open));
+					pst.setDouble(7, Double.parseDouble(close));
+				}else{
+					System.out.println("No ask/bid price data for " + symbol);
+				}					
+				int rows = pst.executeUpdate();
+				if(rows == 1){
+					System.out.println(symbol + " added to quotes table.");
+				}*/
+
+				String query = "INSERT INTO " + symbol.toLowerCase().replaceAll("\"", "").replaceAll("'", "") + " (symbol, askprice, bidprice, changed, changedPercent, open, close, bidshortavg, bidlongavg, askshortavg, asklongavg) VALUES ('" + symbol.replaceAll("\"", "") + "', '" + Double.parseDouble(askPrice) + "', '" + Double.parseDouble(bidPrice) + "', '" + Double.parseDouble(change) + "', '" + changePercent + "', '" + Double.parseDouble(open) + "', '" + Double.parseDouble(close)  + "', '" + 0  + "', '" + 0  + "', '" + 0  + "', '" + 0 + "')";
+				//symbol, askprice, bidprice, change, changepercent, open, close
 				System.out.println(query);
 				Statement st = cn.createStatement();
 				st.executeUpdate(query);
@@ -155,13 +203,9 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 		try{
 			cn = getConnection();
 			if(!symbol.contains("^") && !symbol.contains(".") && !symbol.contains("'") && !symbol.contains("''")){	//change to statements
-				/*PreparedStatement pst = cn.prepareStatement("CREATE TABLE ? (id int auto_increment PRIMARY KEY, stocktime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100) NOT NULL, askprice DECIMAL(10,2) NOT NULL, bidprice DECIMAL(10,2) NOT NULL, askmoving DECIMAL(10,2) NOT NULL, bidmoving DECIMAL(10,2) NOT NULL, capture int NOT NULL, movingaverage int NOT NULL);");
-				pst.setString(1, symbol.replaceAll("\'", ""));
-				int rows = pst.executeUpdate();
-
-				if(rows == 1){
-					System.out.printf("\n%s table created!", symbol);
-				}*/
+								
+				PreparedStatement pst5 = cn.prepareStatement("USE cititrade;");
+				pst5.executeUpdate();
 
 				PreparedStatement pst = cn.prepareStatement("CREATE TABLE IF NOT EXISTS symbols (id int auto_increment PRIMARY KEY, symbol nvarchar(100));");
 				int rows = pst.executeUpdate();
@@ -182,15 +226,15 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 					System.out.println("Favourites table completed!");
 				}
 				
-				PreparedStatement pst4 = cn.prepareStatement("CREATE TABLE IF NOT EXISTS orders (id int auto_increment PRIMARY KEY, ordertime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100), action nvarchar(100), price DECIMAL(10,2) NOT NULL DEFAULT 0, int shares NOT NULL DEFAULT 0;");
+				PreparedStatement pst4 = cn.prepareStatement("CREATE TABLE IF NOT EXISTS orders (id int auto_increment PRIMARY KEY, ordertime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100), action nvarchar(100), price DECIMAL(10,2) NOT NULL DEFAULT 0, shares int NOT NULL DEFAULT 0);");
 				int rows4 = pst4.executeUpdate();
 				if(rows4 == 1){
-					System.out.println("Favourites table completed!");
-				}				
+					System.out.println("Orders table completed!");
+				}			
 				
-				String query = "CREATE TABLE IF NOT EXISTS " + symbol.toLowerCase() + " (id int auto_increment PRIMARY KEY, stocktime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100) NOT NULL, askprice DECIMAL(10,2) NOT NULL, bidprice DECIMAL(10,2) NOT NULL, changed DECIMAL(10,2) NOT NULL DEFAULT 0, changedPercent nvarchar(100) NOT NULL DEFAULT 0, open DECIMAL(10,2) NOT NULL DEFAULT 0, close DECIMAL(10,2) NOT NULL DEFAULT 0);";
+				String query = "CREATE TABLE IF NOT EXISTS " + symbol.toLowerCase() + " (id int auto_increment PRIMARY KEY, stocktime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, symbol nvarchar(100) NOT NULL, askprice DECIMAL(10,2) NOT NULL, bidprice DECIMAL(10,2) NOT NULL, changed DECIMAL(10,2) NOT NULL DEFAULT 0, changedPercent nvarchar(100) NOT NULL DEFAULT 0, open DECIMAL(10,2) NOT NULL DEFAULT 0, close DECIMAL(10,2) NOT NULL DEFAULT 0, bidshortavg DECIMAL(10,2) NOT NULL DEFAULT 0, bidlongavg DECIMAL(10,2) NOT NULL DEFAULT 0, askshortavg DECIMAL(10,2) NOT NULL DEFAULT 0, asklongavg DECIMAL(10,2) NOT NULL DEFAULT 0);";
 				System.out.println(query);
-				//symbol, askprice, bidprice, change, changepercent, open, close
+				//symbol, askprice, bidprice, change, changepercent, open, close, bidshort, bidlong, askshort, asklong
 
 				Statement st = cn.createStatement();
 				st.executeUpdate(query);

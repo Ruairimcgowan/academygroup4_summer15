@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.ws.rs.*;
+
+import cititradeweb.dal.DataAccess;
 
 @Path("/symbols")
 public class Symbols {
@@ -48,7 +51,7 @@ public class Symbols {
 		Connection cn = null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			cn = DriverManager.getConnection("jdbc:mysql://localhost/cititrade", "root", "password");
+			cn = DriverManager.getConnection("jdbc:mysql://localhost/cititrade", "root", DataAccess.pass);
 		}
 		catch(SQLException ex){
 			System.out.println("Database connection error: " + ex);
