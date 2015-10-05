@@ -141,7 +141,7 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 					System.out.println(symbol + " added to quotes table.");
 				}*/
 
-				String query = "INSERT INTO " + symbol.toLowerCase().replaceAll("\"", "").replaceAll("'", "") + " (symbol, askprice, bidprice, changed, changedPercent, open, close) VALUES ('" + symbol.replaceAll("\"", "") + "', '" + Double.parseDouble(askPrice) + "', '" + Double.parseDouble(bidPrice) + "', '" + Double.parseDouble(change) + "', '" + changePercent + "', '" + Double.parseDouble(open) + "', '" + Double.parseDouble(close)  + "', '" + bidAvgShort  + "', '" + bidAvgLong  + "', '" + askAvgShort  + "', '" + askAvgLong + "')";
+				String query = "INSERT INTO " + symbol.toLowerCase().replaceAll("\"", "").replaceAll("'", "") + " (symbol, askprice, bidprice, changed, changedPercent, open, close, bidshortavg, bidlongavg, askshortavg, asklongavg) VALUES ('" + symbol.replaceAll("\"", "") + "', '" + Double.parseDouble(askPrice) + "', '" + Double.parseDouble(bidPrice) + "', '" + Double.parseDouble(change) + "', '" + changePercent + "', '" + Double.parseDouble(open) + "', '" + Double.parseDouble(close)  + "', '" + bidAvgShort  + "', '" + bidAvgLong  + "', '" + askAvgShort  + "', '" + askAvgLong + "')";
 				//symbol, askprice, bidprice, change, changepercent, open, close
 				System.out.println(query);
 				Statement st = cn.createStatement();
@@ -185,7 +185,7 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 					System.out.println(symbol + " added to quotes table.");
 				}*/
 
-				String query = "INSERT INTO " + symbol.toLowerCase().replaceAll("\"", "").replaceAll("'", "") + " (symbol, askprice, bidprice, changed, changedPercent, open, close) VALUES ('" + symbol.replaceAll("\"", "") + "', '" + Double.parseDouble(askPrice) + "', '" + Double.parseDouble(bidPrice) + "', '" + Double.parseDouble(change) + "', '" + changePercent + "', '" + Double.parseDouble(open) + "', '" + Double.parseDouble(close)  + "', '" + 0  + "', '" + 0  + "', '" + 0  + "', '" + 0 + "')";
+				String query = "INSERT INTO " + symbol.toLowerCase().replaceAll("\"", "").replaceAll("'", "") + " (symbol, askprice, bidprice, changed, changedPercent, open, close, bidshortavg, bidlongavg, askshortavg, asklongavg) VALUES ('" + symbol.replaceAll("\"", "") + "', '" + Double.parseDouble(askPrice) + "', '" + Double.parseDouble(bidPrice) + "', '" + Double.parseDouble(change) + "', '" + changePercent + "', '" + Double.parseDouble(open) + "', '" + Double.parseDouble(close)  + "', '" + 0  + "', '" + 0  + "', '" + 0  + "', '" + 0 + "')";
 				//symbol, askprice, bidprice, change, changepercent, open, close
 				System.out.println(query);
 				Statement st = cn.createStatement();

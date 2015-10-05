@@ -106,7 +106,4 @@ public class TwoMovingAverages {
 		kb.close();
 	}
 	
-	public static void main(String []args) throws Exception{
-		getMovingAverages();
-	}
 }
