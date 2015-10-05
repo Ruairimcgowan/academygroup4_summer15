@@ -16,6 +16,6 @@ public class CreateTables {
 			//DataAccess.dropTablesFromStockSymbols(s);
 			DataAccess.createTablesFromStockSymbols(s);
 		}
-		GetQuotes.getQuotes();
+		//GetQuotes.getQuotes();
 	}
 }
