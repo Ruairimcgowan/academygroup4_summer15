@@ -8,12 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jboss.logging.Logger;
+import java.util.logging.Logger;
 
 import cititradeweb.actions.GetStockSymbolsFromCSV;
-import cititradeweb.actions.Orders;
-import cititradeweb.dataobjects.*;
+import cititradeweb.dataobjects.StockObject;
 
 public class DataAccess {
 
@@ -57,6 +55,10 @@ public class DataAccess {
 				cn.close();
 			}
 		}
+		
+	}
+	
+	public static void test () {
 		
 	}
 

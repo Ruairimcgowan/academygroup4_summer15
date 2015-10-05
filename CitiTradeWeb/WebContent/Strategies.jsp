@@ -1,5 +1,8 @@
-
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+
+ pageEncoding="ISO-8859-1"
+ import = "cititradeweb.actions.*, cititradeweb.dal.*, cititradeweb.dataobjects.StockObject, java.util.List"%>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -8,7 +11,8 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="../../favicon.ico"
+    >
 
     <title>Off Canvas Template for Bootstrap</title>
 
@@ -17,10 +21,6 @@
 
     <!-- Custom styles for this template -->
     <link href="css/offcanvas.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -61,34 +61,48 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
           <div class="jumbotron">
-            <h1>Strategies</h1>
+            <h1>Live Feed: </h1>
             <table style='border: 3px solid black'>
 			<tr><th style='border: 1px solid black'>Symbol</th>
 			<th style='border: 1px solid black'>Bid Price</th>
 			<th style='border: 1px solid black'>Ask Price</th>
 			<th style='border: 1px solid black'>Bid Size</th>
 			<th style='border: 1px solid black'>Ask Size</th></tr>
-				<%-- <%
-					List<Stocks> stocks = DataAccess.getContactsObjects((request.getParameter("txtCountry")));
-						for(Stocks s : stocks){
-						out.println("<tr><td style='border: 1px solid black'>"+ s.getSymbol() + "</td>");
+				 <%
+					List<StockObject> stocks1 = DataAccess.returnMostRecentQuote();
+						for(StockObject s : stocks1){
+						out.println("<tr><td style='border: 1px solid black'>"+ s.getStockSymbol()+ "</td>");
 						out.println("<td style='border: 1px solid black'>"+ s.getBidPrice() + "</td>");
 						out.println("<td style='border: 1px solid black'>"+ s.getAskPrice() + "</td>");
 						out.println("<td style='border: 1px solid black'>"+ s.getBidSize() + "</td>");
-						out.println("<td style='border: 1px solid black'>"+ s.getaskSize() + "</td></tr>");
+						out.println("<td style='border: 1px solid black'>"+ s.getAskSize() + "</td></tr>");
 						}
-						%> --%>
+						%>
 			</table>
           </div>
-          <div class="row">
-            
-          </div><!--/row-->
+        
         </div><!--/.col-xs-12.col-sm-9-->
+		<div class="jumbotron">
+            <h1>Current Stock Prices: </h1>
+            <table style='border: 3px solid black'>
+			<tr><th style='border: 1px solid black'>Symbol</th>
+			<th style='border: 1px solid black'>Bid Price</th>
+			<th style='border: 1px solid black'>Ask Price</th>
 
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-          <div class="list-group">
-            <a href="#mytrades" class="list-group-item">My Trades</a>
-            <a href="#livestockfeed" class="list-group-item">Market URL</a>
+				 <%
+				 List<StockObject> stocks2 = DataAccess.getStockData("PIH");
+			
+						for(StockObject s : stocks2){
+						out.println("<tr><td style='border: 1px solid black'>"+ s.getStockSymbol()+ "</td>");
+						out.println("<td style='border: 1px solid black'>"+ s.getBidPrice() + "</td>");
+						out.println("<td style='border: 1px solid black'>"+ s.getAskPrice() + "</td>");
+
+						}
+						%>
+			</table>
+          </div>
+  
+        
           </div>
         </div><!--/.sidebar-offcanvas-->
       </div><!--/row-->

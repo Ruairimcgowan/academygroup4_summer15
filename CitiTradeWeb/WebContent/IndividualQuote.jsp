@@ -1,5 +1,8 @@
-
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+
+ pageEncoding="ISO-8859-1"
+ import = "cititradeweb.actions.*, cititradeweb.dal.*, cititradeweb.dataobjects.StockObject, java.util.List"%>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -27,9 +30,101 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+     <script type="text/javascript">
+	var request = myCreateXMLHttpRequest();
+
+	function myCreateXMLHttpRequest() {
+		try {
+			return new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+		}
+		try {
+			return new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) {
+		}
+		try {
+			return new XMLHttpRequest();
+		} catch (e) {
+		}
+		return null;
+	}
+
+	function myOnKeyUp() {
+
+		if (request != null) {
+			var textField = document.getElementById("myInputField");
+			var url = "rest/symbols?str=" + textField.value;
+			request.open("GET", url, true);
+			request.onreadystatechange = myHandleCallback;
+			request.send(null);
+		}
+	}
+
+	function myHandleCallback() {
+
+		if (request.readyState == 4 && request.status == 200) {
+			var outputField = document.getElementById("myInputField");
+			outputField.innerHTML = request.responseText;
+		}
+	}
+
+	function myHandleCallback2() {
+
+		if (request.readyState == 4 && request.status == 200) {
+			var outputField = document.getElementById("tableField");
+			outputField.innerHTML = request.responseText;
+		}
+	}
+
+	function getQuotes(){
+		setInterval(function(){
+			if (request != null) {
+			var url = "rest/onestock?str=" + document.getElementById("str").value; 
+			request.open("GET", url, true);
+			request.onreadystatechange = myHandleCallback2;
+			request.send(null);
+		}
+			}, 1000)		
+	}
+
+	
+</script> 
+   <style type = "text/css">
+   .myTable {
+	margin:0px;padding:0px;
+	width:100%;
+	box-shadow: 10px 10px 5px #888888;
+	border: 0px;
+	font-size: 10px;
+	-moz-border-radius-bottomleft:25px;
+	-webkit-border-bottom-left-radius:25px;
+	border-bottom-left-radius:25px;
+	
+	-moz-border-radius-bottomright:25px;
+	-webkit-border-bottom-right-radius:25px;
+	border-bottom-right-radius:25px;
+	
+	-moz-border-radius-topright:25px;
+	-webkit-border-top-right-radius:25px;
+	border-top-right-radius:25px;
+	
+	-moz-border-radius-topleft:25px;
+	-webkit-border-top-left-radius:25px;
+	border-top-left-radius:25px;
+}.myTable table{
+    border-collapse: collapse;
+        border-spacing: 0;
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}
+.myTable tr {color-background: #999999;}
+</style>
   </head>
 
-  <body>
+  <body onload= "getQuotes()">
+  <h1>CitiTrade</h1>
     <nav class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
         <div class="navbar-header">
@@ -38,6 +133,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
+            <input id="str" type="hidden" value='<%= request.getParameter("str") %>' />
           </button>
           <a class="navbar-brand" href="#">Citi Trade Group 4</a>
         </div>
@@ -51,8 +147,9 @@
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
     </nav><!-- /.navbar -->
+ 
 
-    <div class="container">
+ <div class="container">
 
       <div class="row row-offcanvas row-offcanvas-right">
 
@@ -60,34 +157,27 @@
           <p class="pull-right visible-xs">
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
+           <div class="jumbotron">
+         	<h2>Trade Stock</h2>
+         	<div class="form-group">
+  			<label for="usr">Amount:</label>
+  			<input type="text" class="form-control" id="buyAmount">
+				</div>
+			<div class="btn-group btn-group-justified">
+ 				 <a href="#" class="btn btn-info">Buy</a>
+  					<a href="#" class="btn btn-info">Sell</a>
+
+				</div>
+				</div>
           <div class="jumbotron">
-            <h1>Individual Quote</h1>
-       		 <table style='border: 3px solid black'>
-			 <tr><th style='border: 1px solid black'>DATE TIME</th>
-			 <th style='border: 1px solid black'>SYMBOL</th>
-			 <th style='border: 1px solid black'>BID PRICE</th>
-			 <th style='border: 1px solid black'>ASK PRICE</th>
-			 <th style='border: 1px solid black'>CHANGED</th>
-			 <th style='border: 1px solid black'>CHANGED PERCENTAGE</th>
-			 <th style='border: 1px solid black'>OPENING PRICE</th>
-			 <th style='border: 1px solid black'>CLOSING PRICE</th></tr>
+            <h3>Live Market Data</h3>
+            <p id="tableField"></p>
 
-			<%-- 	<%
-				List<Stocks> stocks = DataAccess.getContactsObjects((request.getParameter("txtCountry")));
-				for(Stocks s : stocks){
-				out.println("<tr><td style='border: 1px solid black'>"+ s.getSymbol() + "</td>");
-				out.println("<td style='border: 1px solid black'>"+ s.getBidPrice() + "</td>");
-				out.println("<td style='border: 1px solid black'>"+ s.getAskPrice() + "</td>");
-				out.println("<td style='border: 1px solid black'>"+ s.getChanged() + "</td>");
-				out.println("<td style='border: 1px solid black'>"+ s.getChangedPercentage() + "</td>");
-				out.println("<td style='border: 1px solid black'>"+ s.getOpeningPrice() + "</td>");
-				out.println("<td style='border: 1px solid black'>"+ s.getClosingPrice() + "</td></tr>");
-				}
-			%> --%>
-
-</table>
+			
+				
           </div>
           <div class="row">
+       
             
           </div><!--/row-->
         </div><!--/.col-xs-12.col-sm-9-->
@@ -96,7 +186,26 @@
           <div class="list-group">
             <a href="#mytrades" class="list-group-item">My Trades</a>
             <a href="#livestockfeed" class="list-group-item">Market URL</a>
+            
+    
+    		<div class="btn-group-vertical">
+  			<button type="button" class="btn btn-info btn-lg">Moving Average</button>
+  			<button type="button" class="btn btn-info btn-lg">Bollinger</button>
+  			<button type="button" class="btn btn-info btn-lg">Strat 3</button>
+			</div>
+        
+         
           </div>
+        </div><!--/.sidebar-offcanvas-->
+      </div><!--/row-->
+            
+        
+        </div><!--/.col-xs-12.col-sm-9-->
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+           <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+          
+        		   
         </div><!--/.sidebar-offcanvas-->
       </div><!--/row-->
 
