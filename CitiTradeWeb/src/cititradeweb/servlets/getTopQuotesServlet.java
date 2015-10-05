@@ -68,7 +68,7 @@ public class getTopQuotesServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<<<<<<< HEAD
+
 		
 			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();
@@ -101,10 +101,10 @@ public class getTopQuotesServlet extends HttpServlet {
 				log.error("ERROR "+ e.getMessage());
 			}
 		}
-=======
-			doGet(request,response);
->>>>>>> origin/master
 
-	}
+			
+
+
+
 }
 
