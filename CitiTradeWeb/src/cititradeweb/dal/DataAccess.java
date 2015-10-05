@@ -59,7 +59,7 @@ public class DataAccess {
 	}
 	
 	public static void test () {
-		
+		System.out.println("");
 	}
 
 	public static void addStockQuote(String symbol, String askPrice, String bidPrice, String change, String changePercent, String open, String close) throws SQLException{
