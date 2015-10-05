@@ -9,8 +9,11 @@ import java.util.List;
 
 import javax.ws.rs.*;
 
+import org.jboss.logging.Logger;
+
 import cititradeweb.dal.DataAccess;
 import cititradeweb.dataobjects.StockObject;
+import cititradeweb.ordermanager.OrderManager;
 
 @Path("/quotes")
 public class MostRecentQuotes {
@@ -37,6 +40,8 @@ public class MostRecentQuotes {
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
+			Logger log = Logger.getLogger(MostRecentQuotes.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		finally{
 			if(cn != null){
@@ -56,9 +61,13 @@ public class MostRecentQuotes {
 		}
 		catch(SQLException ex){
 			System.out.println("Database connection error: " + ex);
+			Logger log = Logger.getLogger(MostRecentQuotes.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		catch(ClassNotFoundException ex){
 			System.out.println("Class not found: " + ex);
+			Logger log = Logger.getLogger(MostRecentQuotes.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		return cn;
 	}

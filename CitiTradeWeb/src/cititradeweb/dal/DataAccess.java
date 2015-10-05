@@ -21,6 +21,8 @@ public class DataAccess {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			cn = DriverManager.getConnection("jdbc:mysql://localhost/cititrade", "root", "password");
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.info("Connection to database made");
 		}
 		catch(SQLException ex){
 			System.out.println("Database connection error: " + ex);
@@ -49,6 +51,8 @@ public class DataAccess {
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		finally{
 			if(cn != null){
@@ -107,7 +111,7 @@ public class DataAccess {
 		}
 	}
 
-<<<<<<< HEAD
+
 	/*public static void initTable() throws SQLException{
 
 		Connection cn = null;
@@ -136,8 +140,7 @@ public class DataAccess {
 		}
 	}*/
 
-=======
->>>>>>> origin/master
+
 	public static void createTablesFromStockSymbols(String symbol) throws SQLException{
 
 		Connection cn = null;
@@ -201,6 +204,8 @@ public class DataAccess {
 		} //try 
 		catch (SQLException ex) {
 			System.out.println("Error getting data " + ex);
+			Logger log = Logger.getLogger(DataAccess.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 
 		finally {

@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.ws.rs.*;
+
+import org.jboss.logging.Logger;
 
 @Path("/symbols")
 public class Symbols {
@@ -33,6 +36,8 @@ public class Symbols {
 		}
 		catch(SQLException ex){
 			System.out.println("Error getting data: " + ex);
+			Logger log = Logger.getLogger(Symbols.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		finally{
 			if(cn != null){
@@ -52,9 +57,13 @@ public class Symbols {
 		}
 		catch(SQLException ex){
 			System.out.println("Database connection error: " + ex);
+			Logger log = Logger.getLogger(Symbols.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		catch(ClassNotFoundException ex){
 			System.out.println("Class not found: " + ex);
+			Logger log = Logger.getLogger(Symbols.class.getClass());
+			log.error("ERROR "+ ex.getMessage());
 		}
 		return cn;
 	}

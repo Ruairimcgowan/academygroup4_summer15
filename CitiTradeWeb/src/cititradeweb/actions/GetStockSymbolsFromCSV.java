@@ -6,15 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
+
 import org.jboss.logging.Logger;
-=======
+
 import cititradeweb.dataobjects.StockObject;
->>>>>>> origin/master
+
 
 public class GetStockSymbolsFromCSV {
-
-	
 
 	public static List<String> getSymbols(){
 		List<String> stockSymbols = new ArrayList <>();
