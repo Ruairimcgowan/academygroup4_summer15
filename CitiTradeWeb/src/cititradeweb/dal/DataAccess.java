@@ -211,7 +211,7 @@ public static void removeFavouriteStock(String stockSymbol) throws SQLException{
 			if(!symbol.contains("^") && !symbol.contains(".") && !symbol.contains("'") && !symbol.contains("''")){	//change to statements
 								
 				PreparedStatement pst5 = cn.prepareStatement("USE cititrade;");
-				int rows5 = pst5.executeUpdate();
+				pst5.executeUpdate();
 
 				PreparedStatement pst = cn.prepareStatement("CREATE TABLE IF NOT EXISTS symbols (id int auto_increment PRIMARY KEY, symbol nvarchar(100));");
 				int rows = pst.executeUpdate();
